@@ -348,7 +348,9 @@
                                 </div>*@
                             <div class="search-icon">
                                 @Html.Raw(layoutService.getSettingDatas().SearchIcon)
-                                <input type="search" placeholder="Search...">
+                                <form method="get" asp-controller="flower" asp-action="searchresult"  >
+                                    <input name="Name" id="Name"  type="search" placeholder="Search...">
+                                </form>
                             </div>
 
                             <div class="shopping" style="
@@ -863,7 +865,6 @@
                                                     <li><a href=""><span>AUDIO</span></a></li>
                                                     <li><a href=""><span>VIDEO</span></a></li>
                                                 </ul>
-
 
                                             </li>
                                         </ul>

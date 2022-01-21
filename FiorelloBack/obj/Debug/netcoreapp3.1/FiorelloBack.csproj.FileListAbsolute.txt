@@ -503,3 +503,4 @@ C:\Users\ULVI\Desktop\P223-FierolloToBack-master\FiorelloBack\obj\Debug\netcorea
 C:\Users\ULVI\Desktop\P223-FierolloToBack-master\FiorelloBack\obj\Debug\netcoreapp3.1\FiorelloBack.pdb
 C:\Users\ULVI\Desktop\P223-FierolloToBack-master\FiorelloBack\obj\Debug\netcoreapp3.1\FiorelloBack.genruntimeconfig.cache
 C:\Users\ULVI\Desktop\P223-FierolloToBack-master\FiorelloBack\obj\Debug\netcoreapp3.1\Razor\Areas\Manage\Views\Flower\Comments.cshtml.g.cs
+C:\Users\ULVI\Desktop\P223-FierolloToBack-master\FiorelloBack\obj\Debug\netcoreapp3.1\Razor\Views\Flower\SearchResult.cshtml.g.cs

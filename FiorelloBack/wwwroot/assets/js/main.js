@@ -183,13 +183,13 @@ $(document).ready(function () {
 
 
     $(".search-icon i").click(function (e) {
-        e.stopPropagation()
+        //e.stopPropagation()
         $(".search-icon input").slideToggle()
     })
-    $(window).click(function () {
+    //$(window).click(function () {
 
-        $(".search-icon input").slideUp()
-    })
+    //    $(".search-icon input").slideUp()
+    //})
 
 
 
