@@ -1,0 +1,209 @@
+﻿@model Flower
+@{
+    ViewData["Title"] = "Details";
+    List<Flower> related = ViewBag.RelatedFlowers;
+}
+
+<section id="secondpageintroduce">
+    <div class="container">
+        <div class="col-lg-12 info">
+            <div class="title">
+                <h1>
+                    Product List
+                </h1>
+            </div>
+            <div class="desc">
+                <p>Where flowers are our inspiration</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="orangeamarylls">
+    <div class="container">
+        <div class="row">
+            <div class="images col-lg-6 col-md-12 col-12">
+                <div class="littleImages">
+                    @foreach (FlowerImage image in Model.FlowerImages.Where(i=>i.isMain ==false))
+                    {
+                        <div class="littleimage">
+                            <img src="@image.Image"
+                                 alt="">
+                        </div>
+                    }
+
+
+
+
+                </div>
+
+                <div class="bigImage">
+                    <img src="@Model.FlowerImages.FirstOrDefault(i=>i.isMain == true).Image"
+                         alt="">
+                </div>
+
+            </div>
+            <div class="infos col-lg-6 col-md-12 col-12">
+                <div class="info">
+                    <div class="title">
+                        <h1>@Model.Name</h1>
+                    </div>
+                    <div class="price">
+                        @if (Model.CampaignId == null)
+                        {
+                            <p>$@Model.Price</p>
+                        }
+                        else
+                        {
+                            <p style="text-decoration:line-through">$@Model.Price</p>
+
+                            <p>$@(Model.Price *(100-Model.Campaign.DiscountPercent)/100)</p>
+                        }
+                    </div>
+                    <div class="desc">
+                        <p>
+                            @Model.Description
+                        </p>
+                    </div>
+                    <div class="button">
+                        <input type="text" placeholder="Quantity">
+                        <div class="counter">
+                            <i class="fas fa-chevron-left minus"></i><span class="counting">0</span><i class="fas fa-chevron-right plus"></i>
+                        </div>
+                        <button type="button">ADD TO CART <span></span></button>
+                    </div>
+                    <div class="details">
+                        <span>SKU: <a href="">@Model.SKUCode</a></span>
+                        <span>
+                            Categories: <a href="">
+                                @foreach (FlowerCategory fCategory in Model.FlowerCategories)
+                                {
+                                    <span>@fCategory.Category.Name</span>
+                                }
+
+                            </a>
+                        </span>
+                        <span>
+                            Tags: <a href="">
+                                @foreach (FlowerTag fTag in Model.FlowerTags)
+       {
+                                    <span>
+                                        @fTag.Tag.Name
+                                    </span>
+                                }
+
+
+                            </a>
+                        </span>
+                            
+                        <span style="color:@(Model.InStock ? " green" : "red")">@(Model.InStock ? " Available" : "Not Available") </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tabs">
+    <div class="container">
+
+
+        <div class="row titles">
+            <div data-id="powerofflower" class="col-lg-2 col-md-2 col-5 title">
+                <button style="border-top: none !important;" type="button"><span>DESCRIPTION</span></button>
+            </div>
+            <div data-id="additional" class="col-lg-3 col-md-3 col-8 title">
+                <button style="border-top: none !important;border-left: none !important;border-right: none !important;" type="button"><span>ADDITIONAL INFORMATION</span></button>
+            </div>
+            <div data-id="reviews" class="col-lg-2 col-md-4 col-5 title">
+                <button style="border-top: none !important;" type="button"><span>REVIEWS (@Model.Comments.Count(f => f.IsAccess == true))</span></button>
+            </div>
+        </div>
+
+
+        <div class="row paragraphs">
+            <div class="col-lg-12 powerofflower">
+                <div class="title">
+                    <h1>The power of flowers</h1>
+                </div>
+                <div class="desc">
+                    <p>
+                       @Model.Description
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-12 additional">
+                <span style="font-weight: bolder;">Weight:</span><span style="margin-left: 10px;">@Model.Weight</span><br>
+                <span style="font-weight: bolder;">Dimensions:</span><span style="margin-left: 10px;">
+                    @Model.Dimension
+                </span>
+            </div>
+            <div class="col-lg-12 reviews">
+                <div class="title">
+                    <h3>Reviews</h3>
+                </div>
+                @foreach (var comment in Model.Comments.Where(f => f.IsAccess == true).OrderBy(f => f.CreatedTime))
+                {
+                    if (comment.AppUser.UserName == User.Identity.Name)
+                    {
+                        <div class="review">
+                            <div class="info">
+                                <span>@comment.AppUser.Fullname</span> <span> @comment.CreatedTime.ToString("dd MMMM yyyy HH:mm")</span>
+                                <p>
+                                    @comment.Text
+                                </p>
+                                <a asp-action="DeleteComment" asp-route-id="@comment.Id" class="text-danger">Delete</a>
+                            </div>
+                        </div> 
+                        }
+                        else
+                        {
+                            <div class="review">
+                                <div class="info">
+                                    <span>@comment.AppUser.Fullname</span> <span> @comment.CreatedTime.ToString("dd MMMM yyyy HH:mm")</span>
+                                    <p>
+                                        @comment.Text
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    }
+                <div class="forum">
+                    <div class="title">
+                        <h2>Add a review</h2>
+                    </div>
+                    <div class="warning">
+                        <span>
+                            Your email address will not be published. Required fields are marked *
+
+                        </span>
+                    </div>
+                    <form asp-action="AddComment" method="post">
+                        <label for="Text"><span>Your review *</span></label><br>
+                        <textarea name="Text"></textarea>
+                        <input type="hidden" name="FlowerId" value="@Model.Id" />
+                        <button type="submit"><span>SUBMIT</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="products">
+    <div class="container">
+        <div class="row">
+
+            @await Html.PartialAsync("_FlowerPartialView", related)
+
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+    <script src="~/assets/js/orangeamarylls.js"></script>
+}
